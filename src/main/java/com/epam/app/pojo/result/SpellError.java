@@ -1,4 +1,6 @@
-package com.epam.app.result;
+package com.epam.app.pojo.result;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
@@ -11,16 +13,19 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SpellError {
     @XmlAttribute(name = "code")
+    @JsonProperty("code")
     private int errorCode;
     @XmlAttribute(name = "pos")
     private int pos;
     @XmlAttribute(name = "row")
     private int row;
     @XmlAttribute(name = "col")
+    @JsonProperty("col")
     private int column;
     @XmlElement(name = "word")
     private String word;
     @XmlAttribute(name = "len")
+    @JsonProperty("len")
     private int wordLength;
     @XmlElement(name = "s")
     private List<String> s = new ArrayList<>();

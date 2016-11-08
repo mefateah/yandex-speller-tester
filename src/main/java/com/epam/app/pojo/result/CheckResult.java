@@ -1,4 +1,4 @@
-package com.epam.app.result;
+package com.epam.app.pojo.result;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

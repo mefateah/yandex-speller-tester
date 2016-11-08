@@ -1,9 +1,9 @@
 package com.epam.app;
 
 
-import com.epam.app.result.CheckResult;
-import com.epam.app.result.CheckResults;
-import com.epam.app.result.SpellError;
+import com.epam.app.pojo.result.CheckResult;
+import com.epam.app.pojo.result.CheckResults;
+import com.epam.app.pojo.result.SpellError;
 import com.epam.app.utils.ResultType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-public class AppTest {
+public class JerseyYandexSpellerTests {
 
     private CheckResult expectedResult = new CheckResult();
     private CheckResults expectedResults = new CheckResults();

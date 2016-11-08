@@ -1,7 +1,7 @@
 package com.epam.app;
 
-import com.epam.app.result.CheckResult;
-import com.epam.app.result.CheckResults;
+import com.epam.app.pojo.result.CheckResult;
+import com.epam.app.pojo.result.CheckResults;
 import com.epam.app.utils.ResultType;
 
 

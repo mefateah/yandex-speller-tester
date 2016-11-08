@@ -1,8 +1,8 @@
 package com.epam.app;
 
-import com.epam.app.result.CheckResult;
-import com.epam.app.result.CheckResults;
-import com.epam.app.result.SpellError;
+import com.epam.app.pojo.result.CheckResult;
+import com.epam.app.pojo.result.CheckResults;
+import com.epam.app.pojo.result.SpellError;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

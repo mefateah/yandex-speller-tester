@@ -1,57 +1,69 @@
 package com.epam.app.httpclient.apache;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import com.epam.app.parser.Parser;
+import com.epam.app.pojo.result.CheckResult;
+import com.epam.app.pojo.result.CheckResults;
+import com.epam.app.utils.ResultType;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Created by Aleksei_Voronin on 11/2/2016.
+ * Created by Aleksei_Voronin on 11/7/2016.
  */
-public class YandexSpeller {
-    private String baseHost;
-    private static final String PARAM_NAME = "text";
+public class YandexSpeller implements com.epam.app.YandexSpeller {
+    private static final String PARAMETER_NAME = "text";
+    private String host;
 
-    public YandexSpeller(String host) {
-        baseHost = host;
+    public static com.epam.app.YandexSpeller getInstance(String host) {
+        return new YandexSpeller(host);
     }
 
-    public String checkTextGet(String param) throws IOException, URISyntaxException {
-        // Native API
-        URIBuilder builder = new URIBuilder(baseHost).setParameter(PARAM_NAME, param);
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(builder.build());
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        try {
-            System.out.println(response.getStatusLine());
-            HttpEntity entity = response.getEntity();
-            return EntityUtils.toString(entity);
-        } finally {
-            response.close();
-        }
+    private YandexSpeller(String host) {
+        this.host = host;
     }
 
-    public String checkTextPost(String param) throws URISyntaxException, IOException {
-        // Fluent API
-        URIBuilder builder = new URIBuilder(baseHost);
-        HttpResponse response = Request.Post(builder.build()).bodyForm(new BasicNameValuePair(PARAM_NAME, param)).execute().returnResponse();
-        System.out.println(response.getStatusLine());
-        return EntityUtils.toString(response.getEntity());
+
+    @Override
+    public CheckResult CheckTextGet(ResultType type, String text) throws IOException, URISyntaxException, JAXBException {
+        YandexSpellerClient c = new YandexSpellerClient(host);
+        Map<String, String> param = new HashMap<>();
+        param.put(PARAMETER_NAME, text);
+        String response = c.get(param);
+        CheckResult result = Parser.parseResult(type, response);
+        return result;
+    }
+
+    @Override
+    public CheckResults CheckTextsGet(ResultType type, List<String> params) throws IOException, URISyntaxException, JAXBException {
+        Map<String, String> nameValueParams = params.stream().collect(Collectors.toMap(i -> PARAMETER_NAME, i -> i));
+        YandexSpellerClient c = new YandexSpellerClient(host);
+        String response = c.get(nameValueParams);
+        CheckResults result = Parser.parseResults(type, response);
+        return result;
+    }
+
+    @Override
+    public CheckResult CheckTextPost(ResultType type, String text) throws IOException, URISyntaxException, JAXBException {
+        YandexSpellerClient c = new YandexSpellerClient(host);
+        Map<String, String> param = new HashMap<>();
+        param.put(PARAMETER_NAME, text);
+        String response = c.post(param);
+        CheckResult result = Parser.parseResult(type, response);
+        return result;
+    }
+
+    @Override
+    public CheckResults CheckTextsPost(ResultType type, List<String> params) throws JAXBException, IOException, URISyntaxException {
+        Map<String, String> nameValueParams = params.stream().collect(Collectors.toMap(i -> PARAMETER_NAME, i -> i));
+        YandexSpellerClient c = new YandexSpellerClient(host);
+        String response = c.post(nameValueParams);
+        CheckResults result = Parser.parseResults(type, response);
+        return result;
     }
 }

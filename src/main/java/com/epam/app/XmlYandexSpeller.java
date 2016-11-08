@@ -1,7 +1,7 @@
 package com.epam.app;
 
-import com.epam.app.result.CheckResult;
-import com.epam.app.result.CheckResults;
+import com.epam.app.pojo.result.CheckResult;
+import com.epam.app.pojo.result.CheckResults;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -24,7 +24,7 @@ class XmlYandexSpeller extends YandexSpellerBase {
         /*
         HttpClient client = new HttpClient();
         HttpResponse response = client.sendGetRequest(baseUri, text);
-        CheckResult result = new Parser().parse(response.getText(), charset);
+        CheckResult result = new Parser().parseResult(response.getText(), charset);
         return result;
         */
         Client client = ClientBuilder.newClient();
@@ -39,7 +39,7 @@ class XmlYandexSpeller extends YandexSpellerBase {
         HashMap<String, String> query = new HashMap<>();
         query.put("text", text);
         client.sendPostRequest(baseUri, query, charset);
-        //parser.parse(response);
+        //parser.parseResult(response);
         return new CheckResult();
         */
         Client client = ClientBuilder.newClient();
