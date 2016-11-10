@@ -1,15 +1,24 @@
 package com.epam.app;
 
 
+import com.epam.app.model.YandexSpeller;
+import com.epam.app.model.YandexSpellerServiceJersey;
 import com.epam.app.pojo.result.CheckResult;
 import com.epam.app.pojo.result.CheckResults;
 import com.epam.app.pojo.result.SpellError;
 import com.epam.app.utils.ResultType;
+import com.epam.app.utils.YandexSpellerUris;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import static com.epam.app.utils.YandexSpellerUris.*;
 
 public class JerseyYandexSpellerTests {
 
@@ -53,59 +62,58 @@ public class JerseyYandexSpellerTests {
     }
 
     @Test
-    public void checkTextXmlGetTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.XML);
-        // TODO: Consider using TextFormat.Plain parameter
-        CheckResult result = service.checkTextGet(CHECKING_TEXT);
+    public void checkTextXmlGetTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(XML_SERVICE_URI);
+        CheckResult result = service.checkTextGet(ResultType.XML, CHECKING_TEXT);
         Assert.assertEquals(expectedResult, result);
     }
 
     @Test
-    public void checkTextXmlPostTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.XML);
-        CheckResult result = service.checkTextPost(CHECKING_TEXT);
+    public void checkTextXmlPostTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(XML_SERVICE_URI);
+        CheckResult result = service.checkTextPost(ResultType.XML, CHECKING_TEXT);
         Assert.assertEquals(expectedResult, result);
     }
 
     @Test
-    public void checkTextJsonGetTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.JSON);
-        CheckResult result = service.checkTextGet(CHECKING_TEXT);
+    public void checkTextJsonGetTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(JSON_SERVICE_URI);
+        CheckResult result = service.checkTextGet(ResultType.JSON, CHECKING_TEXT);
         Assert.assertEquals(expectedResult, result);
     }
 
     @Test
-    public void checkTextJsonPostTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.JSON);
-        CheckResult result = service.checkTextPost(CHECKING_TEXT);
+    public void checkTextJsonPostTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(JSON_SERVICE_URI);
+        CheckResult result = service.checkTextPost(ResultType.JSON, CHECKING_TEXT);
         Assert.assertEquals(expectedResult, result);
     }
 
     @Test
-    public void checkTextsXmlGetTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.XML);
-        CheckResults result = service.checkTextsGet(new String[]{CHECKING_TEXT, CHECKING_TEXT2});
+    public void checkTextsXmlGetTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(XML_SERVICE_URI);
+        CheckResults result = service.checkTextsGet(ResultType.XML, Arrays.asList(CHECKING_TEXT, CHECKING_TEXT2));
         Assert.assertEquals(expectedResults, result);
     }
 
     @Test
-    public void checkTextsXmlPostTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.XML);
-        CheckResults result = service.checkTextsPost(new String[]{CHECKING_TEXT, CHECKING_TEXT2});
+    public void checkTextsXmlPostTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(XML_SERVICE_URI);
+        CheckResults result = service.checkTextsPost(ResultType.XML, Arrays.asList(CHECKING_TEXT, CHECKING_TEXT2));
         Assert.assertEquals(expectedResults, result);
     }
 
     @Test
-    public void checkTextsJsonGetTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.JSON);
-        CheckResults result = service.checkTextsGet(new String[]{CHECKING_TEXT, CHECKING_TEXT2});
+    public void checkTextsJsonGetTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(JSON_SERVICE_URI);
+        CheckResults result = service.checkTextsGet(ResultType.JSON, Arrays.asList(CHECKING_TEXT, CHECKING_TEXT2));
         Assert.assertEquals(expectedResults, result);
     }
 
     @Test
-    public void checkTextsJsonPostTest() {
-        YandexSpellerBase service = YandexSpellerBase.getInstanse(ResultType.JSON);
-        CheckResults result = service.checkTextsPost(new String[]{CHECKING_TEXT, CHECKING_TEXT2});
+    public void checkTextsJsonPostTest() throws JAXBException, IOException, URISyntaxException {
+        YandexSpeller service = YandexSpellerServiceJersey.getInstance(JSON_SERVICE_URI);
+        CheckResults result = service.checkTextsPost(ResultType.JSON, Arrays.asList(CHECKING_TEXT, CHECKING_TEXT2));
         Assert.assertEquals(expectedResults, result);
     }
 }

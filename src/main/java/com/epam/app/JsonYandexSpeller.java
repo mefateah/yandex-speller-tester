@@ -15,6 +15,7 @@ import java.util.Arrays;
 /**
  * Created by Aleksei_Voronin on 10/27/2016.
  */
+@Deprecated
 class JsonYandexSpeller extends YandexSpellerBase {
     private String baseUri = "http://speller.yandex.net/services/spellservice.json";
     private String mediaType = MediaType.APPLICATION_JSON;

@@ -1,16 +1,23 @@
 package com.epam.app;
 
+import com.epam.app.model.YandexSpeller;
+import com.epam.app.model.YandexSpellerService;
 import com.epam.app.pojo.result.CheckResult;
 import com.epam.app.pojo.result.CheckResults;
 import com.epam.app.pojo.result.SpellError;
 import com.epam.app.utils.ResultType;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.epam.app.utils.YandexSpellerUris.JSON_SERVICE_URI;
+import static com.epam.app.utils.YandexSpellerUris.XML_SERVICE_URI;
 
 /**
  * Created by Aleksei_Voronin on 11/3/2016.
@@ -18,18 +25,16 @@ import java.util.*;
 public class ApacheYandexSpellerTests {
     private static final String TEST_WORD = "hillo";
 
+    /*
     private static final String JSON_ANSWER = "[{\"code\":1,\"pos\":0,\"row\":0,\"col\":0,\"len\":5,\"word\":\"hillo\",\"s\":[\"hello\"]}]";
     private static final String XML_ANSWER = "<?xml version=\"1.0\" encoding=\"utf-8\"?><SpellResult><error code=\"1\" pos=\"0\" row=\"0\" col=\"0\" len=\"5\"><word>hillo</word><s>hello</s></error></SpellResult>";
-
-    private static final String JSON_HOST = "http://speller.yandex.net/services/spellservice.json/checkText";
-    private static final String JSON_HOST2 = "http://speller.yandex.net/services/spellservice.json/checkTexts";
-    private static final String XML_HOST = "http://speller.yandex.net/services/spellservice/checkText";
-    private static final String XML_HOST2 = "http://speller.yandex.net/services/spellservice/checkTexts";
+    */
 
     private CheckResult expectedResult;
     private CheckResults expectedResults;
 
-    public ApacheYandexSpellerTests() {
+    @BeforeTest
+    public void setup() {
         SpellError error = new SpellError();
         error.setErrorCode(1);
         error.setPos(0);
@@ -45,61 +50,61 @@ public class ApacheYandexSpellerTests {
 
     @Test
     public void CheckTextGetXml() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(XML_HOST);
-        CheckResult result = speller.CheckTextGet(ResultType.XML, TEST_WORD);
+        YandexSpeller speller = YandexSpellerService.getInstance(XML_SERVICE_URI);
+        CheckResult result = speller.checkTextGet(ResultType.XML, TEST_WORD);
         Assert.assertEquals(result, expectedResult);
     }
 
     @Test
     public void CheckTextGetJson() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(JSON_HOST);
-        CheckResult result = speller.CheckTextGet(ResultType.JSON, TEST_WORD);
+        YandexSpeller speller = YandexSpellerService.getInstance(JSON_SERVICE_URI);
+        CheckResult result = speller.checkTextGet(ResultType.JSON, TEST_WORD);
         Assert.assertEquals(result, expectedResult);
     }
 
     @Test
     public void CheckTextPostXml() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(XML_HOST);
-        CheckResult result = speller.CheckTextPost(ResultType.XML, TEST_WORD);
+        YandexSpeller speller = YandexSpellerService.getInstance(XML_SERVICE_URI);
+        CheckResult result = speller.checkTextPost(ResultType.XML, TEST_WORD);
         Assert.assertEquals(result, expectedResult);
     }
 
     @Test
     public void CheckTextPostJson() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(JSON_HOST);
-        CheckResult result = speller.CheckTextPost(ResultType.JSON, TEST_WORD);
+        YandexSpeller speller = YandexSpellerService.getInstance(JSON_SERVICE_URI);
+        CheckResult result = speller.checkTextPost(ResultType.JSON, TEST_WORD);
         Assert.assertEquals(result, expectedResult);
     }
 
     @Test
     public void CheckTextsGetXml() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(XML_HOST2);
+        YandexSpeller speller = YandexSpellerService.getInstance(XML_SERVICE_URI);
         List<String> params = Arrays.asList(TEST_WORD);
-        CheckResults results = speller.CheckTextsGet(ResultType.XML, params);
+        CheckResults results = speller.checkTextsGet(ResultType.XML, params);
         Assert.assertEquals(results, expectedResults);
     }
 
     @Test
     public void CheckTextsGetJson() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(JSON_HOST2);
+        YandexSpeller speller = YandexSpellerService.getInstance(JSON_SERVICE_URI);
         List<String> params = Arrays.asList(TEST_WORD);
-        CheckResults results = speller.CheckTextsGet(ResultType.JSON, params);
+        CheckResults results = speller.checkTextsGet(ResultType.JSON, params);
         Assert.assertEquals(results, expectedResults);
     }
 
     @Test
     public void CheckTextsPostXml() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(XML_HOST2);
+        YandexSpeller speller = YandexSpellerService.getInstance(XML_SERVICE_URI);
         List<String> params = Arrays.asList(TEST_WORD);
-        CheckResults results = speller.CheckTextsPost(ResultType.XML, params);
+        CheckResults results = speller.checkTextsPost(ResultType.XML, params);
         Assert.assertEquals(results, expectedResults);
     }
 
     @Test
     public void CheckTextsPostJson() throws JAXBException, IOException, URISyntaxException {
-        YandexSpeller speller = com.epam.app.httpclient.apache.YandexSpeller.getInstance(JSON_HOST2);
+        YandexSpeller speller = YandexSpellerService.getInstance(JSON_SERVICE_URI);
         List<String> params = Arrays.asList(TEST_WORD);
-        CheckResults results = speller.CheckTextsPost(ResultType.JSON, params);
+        CheckResults results = speller.checkTextsPost(ResultType.JSON, params);
         Assert.assertEquals(results, expectedResults);
     }
 }

@@ -6,8 +6,11 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +19,11 @@ import java.util.Map;
 /**
  * Created by Aleksei_Voronin on 11/2/2016.
  */
-public class YandexSpellerClient {
+public class HttpRequestSender {
+    private static final Logger logger = LoggerFactory.getLogger(HttpRequestSender.class);
     private String baseHost;
 
-    public YandexSpellerClient(String host) {
+    public HttpRequestSender(String host) {
         baseHost = host;
     }
 
@@ -31,7 +35,7 @@ public class YandexSpellerClient {
 
         URIBuilder builder = new URIBuilder(baseHost).addParameters(p);
         HttpResponse response = Request.Get(builder.build()).execute().returnResponse();
-        System.out.println(response.getStatusLine());
+        logger.debug(response.getStatusLine().toString());
         return EntityUtils.toString(response.getEntity());
     }
 
@@ -43,7 +47,7 @@ public class YandexSpellerClient {
 
         URIBuilder builder = new URIBuilder(baseHost);
         HttpResponse response = Request.Post(builder.build()).bodyForm(p).execute().returnResponse();
-        System.out.println(response.getStatusLine());
+        logger.debug(response.getStatusLine().toString());
         return EntityUtils.toString(response.getEntity());
     }
 }

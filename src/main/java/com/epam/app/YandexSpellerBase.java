@@ -4,7 +4,7 @@ import com.epam.app.pojo.result.CheckResult;
 import com.epam.app.pojo.result.CheckResults;
 import com.epam.app.utils.ResultType;
 
-
+@Deprecated
 public abstract class YandexSpellerBase {
 
     public static YandexSpellerBase getInstanse(ResultType resType) {

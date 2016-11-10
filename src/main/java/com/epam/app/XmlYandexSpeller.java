@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
  * TODO: Ask about exception handling
  * TODO: exclude node names from code
  */
+@Deprecated
 class XmlYandexSpeller extends YandexSpellerBase {
     private String baseUri = "http://speller.yandex.net/services/spellservice";
     private String mediaType = MediaType.APPLICATION_XML;
